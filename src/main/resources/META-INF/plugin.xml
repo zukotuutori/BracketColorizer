@@ -9,6 +9,8 @@
     gets the color of its nesting level, so brackets that sit inside each other are easy to tell apart.</p>
     <p>Uses each language's syntax highlighter to avoid recognized comments, strings, regular expression
     literals, and markup text. Files without a working syntax highlighter are left unchanged.</p>
+    <p>Plain text and Markdown files are skipped, so that ordinary link syntax such as
+    <code>[text](url)</code> stays calm. Code fenced inside a Markdown file is still colorized.</p>
     <p>The colors are fully configurable, either in the <b>Bracket Colorizer</b> tool window on the
     right hand side of the IDE (applied live) or under <b>Settings | Editor | Bracket Colorizer</b>:
     pick a color per nesting level, add or remove levels, and optionally mark unmatched brackets.</p>

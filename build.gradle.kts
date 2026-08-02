@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "com.zukotuutori"
-version = "1.0.2"
+version = "1.0.0"
 
 repositories {
     mavenCentral()
@@ -24,9 +24,10 @@ dependencies {
         // JetBrains IDE that provides the platform and language modules declared in plugin.xml.
         intellijIdeaCommunity("2025.2")
         testFramework(TestFrameworkType.Platform)
-        // Only used by the tests, to have a real language (lexer, comments, string literals)
-        // available. The plugin itself does not depend on Java support.
+        // Only used by the tests, to have real languages (lexer, comments, string literals)
+        // available. The plugin itself depends on neither Java nor Markdown support.
         testBundledPlugin("com.intellij.java")
+        testBundledPlugin("org.intellij.plugins.markdown")
     }
     testImplementation("junit:junit:4.13.2")
 }

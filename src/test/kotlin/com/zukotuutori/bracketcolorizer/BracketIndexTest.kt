@@ -102,6 +102,28 @@ class BracketIndexTest : BasePlatformTestCase() {
         assertNull(index.main[textStart + "{ignored}".lastIndex])
     }
 
+    fun testPlainTextFilesAreLeftAlone() {
+        val text = "a note about (something) and [something else] {here}"
+        val index = BracketIndex.of(myFixture.configureByText("notes.txt", text))
+
+        assertTrue("prose is not code, nothing should be colorized", index.isEmpty)
+    }
+
+    fun testMarkdownFilesAreLeftAlone() {
+        val file = myFixture.configureByText("README.md", "See [the docs](https://example.com) (really).")
+
+        assertEquals("Markdown", file.language.id)
+        assertTrue("link syntax must not be colorized", BracketIndex.of(file).isEmpty)
+    }
+
+    fun testOtherLanguagesAreStillColorized() {
+        val text = "class A { void f() { } }"
+        val index = BracketIndex.of(myFixture.configureByText("Test.java", text))
+
+        assertFalse("excluding prose must not affect real code", index.isEmpty)
+        assertEquals(0, index.main.levelAt(text.indexOf('{')))
+    }
+
     fun testPathologicalMismatchInputStaysFastAndTheLimitIsAllOrNothing() {
         val atLimit = "(".repeat(100_000) + "]".repeat(100_000)
         val startedAt = System.nanoTime()

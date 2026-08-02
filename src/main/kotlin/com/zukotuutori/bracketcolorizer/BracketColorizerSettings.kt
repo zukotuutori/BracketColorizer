@@ -100,6 +100,10 @@ class BracketColorizerSettings : PersistentStateComponent<BracketColorizerSettin
         }
     }
 
+    // Written on the EDT (settings UI) and by the platform while loading the state, but read
+    // from the background threads that run the annotator. Volatile so that a reader never sees
+    // a State whose fields are not filled in yet; the published instance is never mutated again.
+    @Volatile
     private var myState = State()
 
     override fun getState(): State = myState

@@ -35,6 +35,13 @@ object BracketIndex {
     private val KEY = Key.create<CachedValue<Index>>("bracket.colorizer.index")
 
     /**
+     * Prose, not code. Brackets carry no nesting structure here, and Markdown link syntax
+     * like `[text](url)` would light up on every line, so these files are left alone.
+     * Code fenced into a Markdown file is a different language and is still colorized.
+     */
+    private val EXCLUDED_LANGUAGE_IDS = setOf("TEXT", "Markdown")
+
+    /**
      * @param main   offset -> nesting level for `(`, `[`, `{` and their closers
      * @param angle  offset -> nesting level for `<` and `>`, tracked on a separate stack
      *               so that comparisons like `a < b` cannot shift the levels of real brackets
@@ -171,6 +178,8 @@ object BracketIndex {
     }
 
     private fun compute(file: PsiFile): Index {
+        if (isExcluded(file.language)) return EMPTY
+
         val text = file.viewProvider.contents
         if (text.length > MAX_FILE_LENGTH) return EMPTY
 
@@ -226,6 +235,19 @@ object BracketIndex {
         } catch (e: Exception) {
             false
         }
+    }
+
+    /**
+     * Walks the base language chain as well, so that dialects of an excluded language
+     * (and `.md` files while the Markdown plugin is disabled) are covered too.
+     */
+    private fun isExcluded(language: Language): Boolean {
+        var current: Language? = language
+        while (current != null) {
+            if (current.id in EXCLUDED_LANGUAGE_IDS) return true
+            current = current.baseLanguage
+        }
+        return false
     }
 
     private fun skippedTokens(language: Language): TokenSet {
