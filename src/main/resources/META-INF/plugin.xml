@@ -1,0 +1,41 @@
+﻿<idea-plugin url="https://github.com/zukotuutori/BracketColorizer">
+    <id>com.zukotuutori.bracketcolorizer</id>
+    <name>Bracket Colorizer</name>
+    <vendor url="https://github.com/zukotuutori">zukotuutori</vendor>
+
+    <description><![CDATA[
+    <p>Colorizes matching brackets by nesting depth ("rainbow brackets"): every pair of
+    <code>()</code>, <code>[]</code>, <code>{}</code> (and optionally <code>&lt;&gt;</code>)
+    gets the color of its nesting level, so brackets that sit inside each other are easy to tell apart.</p>
+    <p>Uses each language's syntax highlighter to avoid recognized comments, strings, regular expression
+    literals, and markup text. Files without a working syntax highlighter are left unchanged.</p>
+    <p>The colors are fully configurable, either in the <b>Bracket Colorizer</b> tool window on the
+    right hand side of the IDE (applied live) or under <b>Settings | Editor | Bracket Colorizer</b>:
+    pick a color per nesting level, add or remove levels, and optionally mark unmatched brackets.</p>
+    ]]></description>
+
+    <change-notes><![CDATA[
+    <p>Initial public release with configurable nesting colors, live tool window settings,
+    unmatched bracket highlighting, and optional angle bracket support.</p>
+    ]]></change-notes>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.lang</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- empty language attribute = register for all languages -->
+        <annotator language=""
+                   implementationClass="com.zukotuutori.bracketcolorizer.BracketColorizerAnnotator"/>
+
+        <!-- The same form as a tool window, docked to the right stripe -->
+        <toolWindow id="Bracket Colorizer"
+                    anchor="right"
+                    icon="/icons/bracketColorizer.svg"
+                    factoryClass="com.zukotuutori.bracketcolorizer.BracketColorizerToolWindowFactory"/>
+
+        <applicationConfigurable parentId="editor"
+                                 id="com.zukotuutori.bracketcolorizer.settings"
+                                 displayName="Bracket Colorizer"
+                                 instance="com.zukotuutori.bracketcolorizer.BracketColorizerConfigurable"/>
+    </extensions>
+</idea-plugin>

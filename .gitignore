@@ -1,0 +1,56 @@
+# Gradle
+.gradle/
+build/
+
+# IntelliJ Platform Gradle Plugin
+.intellijPlatform/
+.kotlin/
+verification-*/
+
+# IDE
+.idea/
+.DS_Store
+out/
+*.iml
+
+# Local machine configuration and credentials
+.env
+.env.*
+!.env.example
+local.properties
+*.jks
+*.keystore
+*.p12
+*.pfx
+*.pem
+*.key
+
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+replay_pid*
+*.hprof
+*.jfr
+
+# ...but the Gradle wrapper has to be committed
+!gradle/wrapper/gradle-wrapper.jar
