@@ -60,23 +60,40 @@ class BracketColorizerSettings : PersistentStateComponent<BracketColorizerSettin
         @JvmField
         var levelColors: MutableList<String> = DEFAULT_LEVEL_COLORS.toMutableList()
 
+        /** Take the colors from [templateId] instead of the hand picked [levelColors]. */
+        @JvmField
+        var useTemplate: Boolean = false
+
+        @JvmField
+        var templateId: String = BracketColorTemplate.DEFAULT.id
+
+        /** The template that is in effect, or `null` while the custom colors are used. */
+        fun template(): BracketColorTemplate? =
+            if (useTemplate) BracketColorTemplate.byId(templateId) ?: BracketColorTemplate.DEFAULT else null
+
+        /** The colors that are actually painted - the template's or the custom ones. */
+        fun effectiveLevelColors(): List<String> = template()?.levelColors ?: levelColors
+
+        fun effectiveUnmatchedColor(): String = template()?.unmatchedColor ?: unmatchedColor
+
         /**
          * The color of a zero based nesting level, or `null` when that level is not
          * colorized - which is the case for nesting deeper than the configured list
          * while the colors do not cycle.
          */
         fun colorAt(level: Int): Color? {
-            if (levelColors.isEmpty()) return null
-            val index = if (cycleColors) level % levelColors.size else level
-            if (index >= levelColors.size) return null
-            return ColorHex.parse(levelColors[index]) ?: ColorHex.parse(DEFAULT_LEVEL_COLORS[0])
+            val colors = effectiveLevelColors()
+            if (colors.isEmpty()) return null
+            val index = if (cycleColors) level % colors.size else level
+            if (index >= colors.size) return null
+            return ColorHex.parse(colors[index]) ?: ColorHex.parse(DEFAULT_LEVEL_COLORS[0])
         }
 
         /** Everything that is user visible, as a single string - used for change detection. */
         fun signature(): String = listOf(
             enabled, colorRound, colorSquare, colorCurly, colorAngle,
             boldBrackets, cycleColors, highlightUnmatched, unmatchedColor,
-            levelColors.joinToString(",")
+            levelColors.joinToString(","), useTemplate, templateId
         ).joinToString("|")
 
         fun copy(): State {
@@ -90,6 +107,8 @@ class BracketColorizerSettings : PersistentStateComponent<BracketColorizerSettin
             copy.cycleColors = cycleColors
             copy.highlightUnmatched = highlightUnmatched
             copy.unmatchedColor = unmatchedColor
+            copy.useTemplate = useTemplate
+            copy.templateId = templateId
             val colors = levelColors.take(MAX_LEVEL_COLORS)
             copy.levelColors = if (colors.isEmpty()) {
                 DEFAULT_LEVEL_COLORS.toMutableList()
@@ -142,7 +161,7 @@ class BracketColorizerSettings : PersistentStateComponent<BracketColorizerSettin
     fun colorForLevel(level: Int): Color? = myState.colorAt(level)
 
     fun unmatchedColor(): Color =
-        ColorHex.parse(myState.unmatchedColor) ?: ColorHex.parse(DEFAULT_UNMATCHED_COLOR)!!
+        ColorHex.parse(myState.effectiveUnmatchedColor()) ?: ColorHex.parse(DEFAULT_UNMATCHED_COLOR)!!
 
     companion object {
         /**

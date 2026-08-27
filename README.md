@@ -7,6 +7,7 @@ The plugin reads the tokens produced by the current language's syntax highlighte
 ## Features
 
 * A separate color for every nesting level, with levels that can be added or removed freely.
+* Ready made palettes taken from well known editor color schemes, instead of picking every color by hand.
 * Colors that either stop at the end of the palette or repeat for deeper nesting.
 * Unmatched brackets highlighted in a color of their own, so a missing counterpart is easy to spot.
 * Brackets optionally drawn in bold.
@@ -26,6 +27,8 @@ Brackets are also left alone wherever the language's own highlighter says they a
 Open the **Bracket Colorizer** tool window on the right side of the IDE to edit the colors while looking at your code. Changes made there are applied immediately. The same controls are available under **Settings | Editor | Bracket Colorizer**, where changes take effect after pressing **Apply** or **OK**.
 
 Each nesting level can have its own color. Levels may be added or removed, brackets may be drawn in bold, and colors can either stop at the end of the configured palette or repeat for deeper nesting. Unmatched round, square and curly brackets can be highlighted with a separate color.
+
+Colors come either from **Custom colors**, where every level is picked by hand, or from **From template**, which uses the bracket colors of a known editor color scheme: VS Code Dark+, VS Code Light+, VS Code High Contrast Dark, One Dark Pro, Dracula, Nord, or the Viasfora rainbow. A template replaces the level colors and the unmatched color; the hand picked colors are kept and come back when switching to **Custom colors** again. Templates define three to six colors, so the repeat option covers deeper nesting, the way those editors do it.
 
 Clicking a color chip opens the IDE color picker, which accepts hex and RGB values. The editor follows along while the picker is open, so a color can be judged in place before it is confirmed.
 

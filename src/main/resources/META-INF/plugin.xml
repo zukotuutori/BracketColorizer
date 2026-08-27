@@ -14,11 +14,17 @@
     <p>The colors are fully configurable, either in the <b>Bracket Colorizer</b> tool window on the
     right hand side of the IDE (applied live) or under <b>Settings | Editor | Bracket Colorizer</b>:
     pick a color per nesting level, add or remove levels, and optionally mark unmatched brackets.</p>
+    <p>Instead of hand picked colors you can also pick a ready made palette under <b>From template</b>:
+    the bracket colors of VS Code Dark+, VS Code Light+, VS Code High Contrast Dark, One Dark Pro,
+    Dracula, Nord, or the Viasfora rainbow.</p>
     ]]></description>
 
     <change-notes><![CDATA[
-    <p>Initial public release with configurable nesting colors, live tool window settings,
-    unmatched bracket highlighting, and optional angle bracket support.</p>
+    <p><b>1.1.0</b> - The nesting colors can now come from a template instead of being picked by
+    hand: VS Code Dark+, VS Code Light+, VS Code High Contrast Dark, One Dark Pro, Dracula, Nord,
+    and the Viasfora rainbow. Custom colors are kept while a template is active.</p>
+    <p><b>1.0.0</b> - Initial public release with configurable nesting colors, live tool window
+    settings, unmatched bracket highlighting, and optional angle bracket support.</p>
     ]]></change-notes>
 
     <depends>com.intellij.modules.platform</depends>

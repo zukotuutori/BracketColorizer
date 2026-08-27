@@ -37,6 +37,26 @@ class BracketColorizerToolWindowTest : BasePlatformTestCase() {
         assertEquals(state.signature(), panel.readState().signature())
     }
 
+    fun testTemplateColorsWinOverTheCustomOnes() {
+        val template = BracketColorTemplate.byId("vscode-dark")!!
+        val panel = BracketColorizerSettingsPanel { }
+        val state = BracketColorizerSettings.State().apply {
+            levelColors = arrayListOf("#112233")
+            unmatchedColor = "#123456"
+            useTemplate = true
+            templateId = template.id
+        }
+
+        panel.writeState(state)
+
+        assertEquals(state.signature(), panel.readState().signature())
+        assertEquals(template.levelColors, state.effectiveLevelColors())
+        assertEquals(template.unmatchedColor, state.effectiveUnmatchedColor())
+        assertEquals(ColorHex.parse(template.levelColors[1]), state.colorAt(1))
+        // The hand picked colors survive the detour through the template.
+        assertEquals(listOf("#112233"), state.copy().levelColors)
+    }
+
     fun testOversizedPaletteIsCapped() {
         val panel = BracketColorizerSettingsPanel { }
         val state = BracketColorizerSettings.State().apply {

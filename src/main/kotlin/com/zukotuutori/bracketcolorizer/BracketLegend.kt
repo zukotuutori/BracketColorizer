@@ -31,7 +31,7 @@ class BracketLegend : JPanel() {
         addRow("Square brackets:", nestedHtml(state, '[', ']', state.colorSquare))
         addRow("Angle brackets:", nestedHtml(state, '<', '>', state.colorAngle))
         if (state.highlightUnmatched) {
-            val color = if (state.enabled) state.unmatchedColor else null
+            val color = if (state.enabled) state.effectiveUnmatchedColor() else null
             addRow("Unmatched bracket:", html(state) { append(glyph('}', color)) })
         }
 

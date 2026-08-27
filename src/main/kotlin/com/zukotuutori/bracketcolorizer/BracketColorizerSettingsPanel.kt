@@ -1,7 +1,9 @@
 ﻿package com.zukotuutori.bracketcolorizer
 
+import com.intellij.openapi.ui.ComboBox
 import com.intellij.ui.TitledSeparator
 import com.intellij.ui.components.JBCheckBox
+import com.intellij.ui.components.JBRadioButton
 import com.intellij.ui.components.JBLabel
 import com.intellij.util.ui.FormBuilder
 import com.intellij.util.ui.JBUI
@@ -10,6 +12,7 @@ import java.awt.BorderLayout
 import java.awt.FlowLayout
 import java.awt.Font
 import javax.swing.BoxLayout
+import javax.swing.ButtonGroup
 import javax.swing.JButton
 import javax.swing.JPanel
 
@@ -31,6 +34,10 @@ class BracketColorizerSettingsPanel(private val onUserChange: () -> Unit) : JPan
     private val unmatchedCheckBox = JBCheckBox("Highlight unmatched brackets")
     private val bracketTypeCheckBoxes = listOf(roundCheckBox, squareCheckBox, curlyCheckBox, angleCheckBox)
 
+    private val customColorsRadio = JBRadioButton("Custom colors")
+    private val templateRadio = JBRadioButton("From template")
+    private val templateCombo = ComboBox(BracketColorTemplate.ALL.toTypedArray())
+
     private val levelRows = mutableListOf<ColorRow>()
     private val levelsPanel = JPanel()
     private val bracketTypesPanel = row {
@@ -42,6 +49,15 @@ class BracketColorizerSettingsPanel(private val onUserChange: () -> Unit) : JPan
         fireChanged()
     }
     private val addLevelButton = JButton("Add level").apply { addActionListener { addLevel() } }
+    private val levelButtons = row {
+        add(addLevelButton)
+        add(JButton("Reset to defaults").apply { addActionListener { resetToDefaults() } })
+    }
+    private val colorSourcePanel = row {
+        add(customColorsRadio)
+        add(templateRadio)
+        add(templateCombo)
+    }
 
     private val contentPanel: JPanel
     private var suppressEvents = false
@@ -50,10 +66,21 @@ class BracketColorizerSettingsPanel(private val onUserChange: () -> Unit) : JPan
         levelsPanel.layout = BoxLayout(levelsPanel, BoxLayout.Y_AXIS)
         levelsPanel.alignmentX = LEFT_ALIGNMENT
 
-        val levelButtons = row {
-            add(addLevelButton)
-            add(JButton("Reset to defaults").apply { addActionListener { resetToDefaults() } })
+        ButtonGroup().apply {
+            add(customColorsRadio)
+            add(templateRadio)
         }
+        for (radio in listOf(customColorsRadio, templateRadio)) {
+            radio.addActionListener {
+                updateColorSourceState()
+                fireChanged()
+            }
+        }
+        templateCombo.addActionListener {
+            if (suppressEvents) return@addActionListener
+            fireChanged()
+        }
+        templateCombo.toolTipText = "The bracket colors of a well known editor color scheme"
 
         for (checkBox in bracketTypeCheckBoxes) {
             checkBox.addActionListener { updateBracketTypeState() }
@@ -74,6 +101,7 @@ class BracketColorizerSettingsPanel(private val onUserChange: () -> Unit) : JPan
             .addComponent(TitledSeparator("Brackets"))
             .addLabeledComponent("Colorize:", bracketTypesPanel)
             .addComponent(TitledSeparator("Nesting level colors"))
+            .addComponent(colorSourcePanel)
             .addComponent(levelsPanel)
             .addComponent(levelButtons)
             .addComponent(cycleCheckBox)
@@ -111,6 +139,8 @@ class BracketColorizerSettingsPanel(private val onUserChange: () -> Unit) : JPan
         state.highlightUnmatched = unmatchedCheckBox.isSelected
         state.unmatchedColor = ColorHex.format(unmatchedRow.color)
         state.levelColors = levelRows.mapTo(ArrayList()) { ColorHex.format(it.color) }
+        state.useTemplate = templateRadio.isSelected
+        state.templateId = (templateCombo.selectedItem as BracketColorTemplate).id
         return state
     }
 
@@ -128,7 +158,10 @@ class BracketColorizerSettingsPanel(private val onUserChange: () -> Unit) : JPan
             unmatchedRow.color = ColorHex.parse(state.unmatchedColor)
                 ?: ColorHex.parse(BracketColorizerSettings.DEFAULT_UNMATCHED_COLOR)!!
             rebuildLevels(state.levelColors)
-            updateUnmatchedColorVisibility()
+            customColorsRadio.isSelected = !state.useTemplate
+            templateRadio.isSelected = state.useTemplate
+            templateCombo.selectedItem = BracketColorTemplate.byId(state.templateId) ?: BracketColorTemplate.DEFAULT
+            updateColorSourceState()
             updateBracketTypeState()
         } finally {
             suppressEvents = false
@@ -190,8 +223,17 @@ class BracketColorizerSettingsPanel(private val onUserChange: () -> Unit) : JPan
         updateEnabledState()
     }
 
+    /** The hand picked colors are only editable while the template mode is off. */
+    private fun updateColorSourceState() {
+        val custom = customColorsRadio.isSelected
+        levelsPanel.isVisible = custom
+        levelButtons.isVisible = custom
+        templateCombo.isVisible = !custom
+        updateUnmatchedColorVisibility()
+    }
+
     private fun updateUnmatchedColorVisibility() {
-        unmatchedRow.isVisible = unmatchedCheckBox.isSelected
+        unmatchedRow.isVisible = unmatchedCheckBox.isSelected && customColorsRadio.isSelected
         contentPanel.revalidate()
         contentPanel.repaint()
     }

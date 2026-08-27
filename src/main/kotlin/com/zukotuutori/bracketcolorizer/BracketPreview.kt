@@ -125,6 +125,6 @@ class BracketPreview : JComponent() {
          * or no color at all.
          */
         fun depthFor(state: BracketColorizerSettings.State): Int =
-            (state.levelColors.size + 1).coerceIn(1, MAX_DEPTH)
+            (state.effectiveLevelColors().size + 1).coerceIn(1, MAX_DEPTH)
     }
 }
