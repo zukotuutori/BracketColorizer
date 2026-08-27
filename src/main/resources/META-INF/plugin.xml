@@ -16,15 +16,36 @@
     pick a color per nesting level, add or remove levels, and optionally mark unmatched brackets.</p>
     <p>Instead of hand picked colors you can also pick a ready made palette under <b>From template</b>:
     the bracket colors of VS Code Dark+, VS Code Light+, VS Code High Contrast Dark, One Dark Pro,
-    Dracula, Nord, or the Viasfora rainbow.</p>
+    Dracula, Nord, or the Viasfora rainbow. Your own colors can be saved as a named template as
+    well. A template also carries the bracket types, the repeat, bold and unmatched switches, which
+    it ticks in the form when it is selected and which stay editable afterwards.
+    <b>Change template</b> edits the one that is selected, and <b>Customize templates</b>
+    manages the list: remove entries, clear it completely, or put the built in templates back
+    without losing the ones you saved.</p>
     ]]></description>
 
     <change-notes><![CDATA[
-    <p><b>1.1.0</b> - The nesting colors can now come from a template instead of being picked by
-    hand: VS Code Dark+, VS Code Light+, VS Code High Contrast Dark, One Dark Pro, Dracula, Nord,
-    and the Viasfora rainbow. Custom colors are kept while a template is active.</p>
-    <p><b>1.0.0</b> - Initial public release with configurable nesting colors, live tool window
-    settings, unmatched bracket highlighting, and optional angle bracket support.</p>
+    <p><b>1.2.0</b></p>
+    <p>Nesting colors no longer have to be picked one at a time. Next to the hand picked colors
+    there is now a second way to dress up your brackets: templates. Seven of them ship with the
+    plugin, each holding the bracket colors of a color scheme you probably know already, namely
+    VS Code Dark+, VS Code Light+, VS Code High Contrast Dark, One Dark Pro, Dracula, Nord, and
+    the Viasfora rainbow. Pick one from the dropdown and the whole form follows along: the level
+    colors, the color for unmatched brackets, which bracket types are colorized, and the repeat,
+    bold and unmatched switches. Nothing is locked afterwards, so a template is a starting point
+    rather than a cage.</p>
+    <p>Your own palettes belong in that list just as much. <b>Save as template</b> turns the colors
+    you picked by hand into a named entry of your own. <b>Change template</b> opens any template,
+    including the ones that ship with the plugin, so its name, its colors, its number of levels and
+    its switches can be reworked, then kept with <b>Save</b> or thrown away with <b>Discard</b>.
+    <b>Customize templates</b> keeps the list itself in order: change or remove single entries,
+    clear the whole list, or put the built in templates back the way they shipped. Restoring them
+    never touches the templates you saved yourself.</p>
+    <p>Your hand picked colors stay exactly where they are while a template is in use, so
+    switching back to them is always a single click.</p>
+    <p><b>1.0.0</b></p>
+    <p>Initial public release with configurable nesting colors, live tool window settings,
+    unmatched bracket highlighting, and optional angle bracket support.</p>
     ]]></change-notes>
 
     <depends>com.intellij.modules.platform</depends>

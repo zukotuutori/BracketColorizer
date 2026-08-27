@@ -65,11 +65,19 @@ class BracketColorizerSettings : PersistentStateComponent<BracketColorizerSettin
         var useTemplate: Boolean = false
 
         @JvmField
-        var templateId: String = BracketColorTemplate.DEFAULT.id
+        var templateId: String = BracketColorTemplate.BUILT_IN[0].id
 
-        /** The template that is in effect, or `null` while the custom colors are used. */
+        /** The built in templates plus the ones the user saved. */
+        @XCollection(style = XCollection.Style.v2)
+        @JvmField
+        var templates: MutableList<BracketColorTemplate> = BracketColorTemplate.defaults()
+
+        /**
+         * The template that is in effect, or `null` while the custom colors are used - which
+         * is also the case when the selected template was deleted in the meantime.
+         */
         fun template(): BracketColorTemplate? =
-            if (useTemplate) BracketColorTemplate.byId(templateId) ?: BracketColorTemplate.DEFAULT else null
+            if (useTemplate) templates.firstOrNull { it.id == templateId } else null
 
         /** The colors that are actually painted - the template's or the custom ones. */
         fun effectiveLevelColors(): List<String> = template()?.levelColors ?: levelColors
@@ -93,7 +101,8 @@ class BracketColorizerSettings : PersistentStateComponent<BracketColorizerSettin
         fun signature(): String = listOf(
             enabled, colorRound, colorSquare, colorCurly, colorAngle,
             boldBrackets, cycleColors, highlightUnmatched, unmatchedColor,
-            levelColors.joinToString(","), useTemplate, templateId
+            levelColors.joinToString(","), useTemplate, templateId,
+            templates.joinToString(";") { it.signature() }
         ).joinToString("|")
 
         fun copy(): State {
@@ -109,6 +118,7 @@ class BracketColorizerSettings : PersistentStateComponent<BracketColorizerSettin
             copy.unmatchedColor = unmatchedColor
             copy.useTemplate = useTemplate
             copy.templateId = templateId
+            copy.templates = templates.mapTo(ArrayList()) { it.copy() }
             val colors = levelColors.take(MAX_LEVEL_COLORS)
             copy.levelColors = if (colors.isEmpty()) {
                 DEFAULT_LEVEL_COLORS.toMutableList()

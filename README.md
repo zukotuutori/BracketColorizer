@@ -8,6 +8,7 @@ The plugin reads the tokens produced by the current language's syntax highlighte
 
 * A separate color for every nesting level, with levels that can be added or removed freely.
 * Ready made palettes taken from well known editor color schemes, instead of picking every color by hand.
+* Own palettes saved as named templates, each of them editable, with a small manager to clean the list up again.
 * Colors that either stop at the end of the palette or repeat for deeper nesting.
 * Unmatched brackets highlighted in a color of their own, so a missing counterpart is easy to spot.
 * Brackets optionally drawn in bold.
@@ -30,7 +31,17 @@ Each nesting level can have its own color. Levels may be added or removed, brack
 
 Colors come either from **Custom colors**, where every level is picked by hand, or from **From template**, which uses the bracket colors of a known editor color scheme: VS Code Dark+, VS Code Light+, VS Code High Contrast Dark, One Dark Pro, Dracula, Nord, or the Viasfora rainbow. A template replaces the level colors and the unmatched color; the hand picked colors are kept and come back when switching to **Custom colors** again. Templates define three to six colors, so the repeat option covers deeper nesting, the way those editors do it.
 
+**Save as template** turns the colors currently picked by hand into a named template of your own, which then sits in the dropdown next to the built in ones.
+
+A template covers more than the colors. It also carries which bracket types are colorized, whether the colors repeat, whether brackets are drawn in bold, and whether unmatched brackets are highlighted. Selecting a template ticks those boxes for you, and they stay editable: change one afterwards and your change simply applies, without being written back into the template. The master **Enable bracket colorizing** switch is never part of a template.
+
+**Change template** opens the selected template for editing: its name, its colors, how many levels it has, its unmatched color, and the switches above. **Save** keeps the changes, **Discard** throws them away. Built in templates can be edited too.
+
+**Customize templates** opens a small manager for the list: change the selected template, remove a single entry, delete every template at once, or put the built in ones back. Restoring the defaults undoes edits to the built in templates and adds back the ones that were deleted, while templates you saved yourself are left alone. With an empty list the plugin simply falls back to the custom colors.
+
 Clicking a color chip opens the IDE color picker, which accepts hex and RGB values. The editor follows along while the picker is open, so a color can be judged in place before it is confirmed.
+
+Ticking a bracket type while none was selected switches bracket colorizing back on, since it was only turned off because there was nothing left to color. While colorizing is off, the switch labels itself in red.
 
 Round, square and curly brackets are enabled by default. Angle brackets are optional because operators such as `a < b` are ambiguous. Common comparison operators with whitespace on both sides are ignored. Compact comparisons can still be indistinguishable from type syntax, so angle brackets remain disabled by default. Their nesting stack never affects the colors of the other bracket types, and an angle bracket without a counterpart is left uncolored.
 
