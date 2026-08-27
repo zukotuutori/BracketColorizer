@@ -1,4 +1,4 @@
-﻿package com.zukotuutori.bracketcolorizer
+﻿package com.zukotuutori.bracketcolorizer.ui
 
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.DumbAware
@@ -12,6 +12,8 @@ import com.intellij.ui.content.ContentFactory
 import com.intellij.util.Alarm
 import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.UIUtil
+import com.zukotuutori.bracketcolorizer.settings.BracketColorizerListener
+import com.zukotuutori.bracketcolorizer.settings.BracketColorizerSettings
 import java.awt.BorderLayout
 import javax.swing.JPanel
 

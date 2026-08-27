@@ -1,4 +1,4 @@
-﻿package com.zukotuutori.bracketcolorizer
+﻿package com.zukotuutori.bracketcolorizer.core
 
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
@@ -6,6 +6,7 @@ import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.openapi.editor.markup.TextAttributes
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
+import com.zukotuutori.bracketcolorizer.settings.BracketColorizerSettings
 import java.awt.Font
 
 /**

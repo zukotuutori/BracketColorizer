@@ -1,9 +1,12 @@
-﻿package com.zukotuutori.bracketcolorizer
+﻿package com.zukotuutori.bracketcolorizer.ui
 
 import com.intellij.openapi.editor.colors.EditorColorsManager
 import com.intellij.openapi.editor.colors.EditorFontType
 import com.intellij.ui.JBColor
 import com.intellij.util.ui.JBUI
+import com.zukotuutori.bracketcolorizer.core.BracketIndex
+import com.zukotuutori.bracketcolorizer.settings.BracketColorizerSettings
+import com.zukotuutori.bracketcolorizer.settings.ColorHex
 import java.awt.Color
 import java.awt.Dimension
 import java.awt.Font

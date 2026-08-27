@@ -1,7 +1,8 @@
-﻿package com.zukotuutori.bracketcolorizer
+﻿package com.zukotuutori.bracketcolorizer.core
 
 import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
+import com.zukotuutori.bracketcolorizer.settings.BracketColorizerSettings
 
 class BracketColorizerAnnotatorTest : BasePlatformTestCase() {
 

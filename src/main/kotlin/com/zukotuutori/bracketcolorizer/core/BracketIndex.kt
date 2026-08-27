@@ -1,4 +1,4 @@
-﻿package com.zukotuutori.bracketcolorizer
+﻿package com.zukotuutori.bracketcolorizer.core
 
 import com.intellij.lang.Language
 import com.intellij.lang.LanguageParserDefinitions

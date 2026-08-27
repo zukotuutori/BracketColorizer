@@ -1,4 +1,4 @@
-﻿package com.zukotuutori.bracketcolorizer
+﻿package com.zukotuutori.bracketcolorizer.ui
 
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.openapi.ui.ValidationInfo
@@ -9,6 +9,9 @@ import com.intellij.ui.components.JBScrollPane
 import com.intellij.ui.components.JBTextField
 import com.intellij.util.ui.FormBuilder
 import com.intellij.util.ui.JBUI
+import com.zukotuutori.bracketcolorizer.settings.BracketColorTemplate
+import com.zukotuutori.bracketcolorizer.settings.BracketColorizerSettings
+import com.zukotuutori.bracketcolorizer.settings.ColorHex
 import java.awt.BorderLayout
 import java.awt.Component
 import java.awt.Dimension

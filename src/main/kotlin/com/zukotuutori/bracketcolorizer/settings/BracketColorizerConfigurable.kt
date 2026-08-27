@@ -1,6 +1,7 @@
-﻿package com.zukotuutori.bracketcolorizer
+﻿package com.zukotuutori.bracketcolorizer.settings
 
 import com.intellij.openapi.options.Configurable
+import com.zukotuutori.bracketcolorizer.ui.BracketColorizerSettingsPanel
 import javax.swing.JComponent
 
 /**

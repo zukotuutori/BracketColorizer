@@ -1,6 +1,8 @@
-﻿package com.zukotuutori.bracketcolorizer
+﻿package com.zukotuutori.bracketcolorizer.ui
 
 import com.intellij.ui.components.JBLabel
+import com.zukotuutori.bracketcolorizer.settings.BracketColorizerSettings
+import com.zukotuutori.bracketcolorizer.settings.ColorHex
 import javax.swing.BoxLayout
 import javax.swing.JButton
 import javax.swing.JPanel

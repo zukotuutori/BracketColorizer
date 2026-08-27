@@ -1,4 +1,4 @@
-﻿package com.zukotuutori.bracketcolorizer
+﻿package com.zukotuutori.bracketcolorizer.ui
 
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.wm.ToolWindowEP
@@ -12,6 +12,10 @@ import java.awt.Container
 import com.intellij.openapi.ui.ComboBox
 import com.intellij.openapi.util.Disposer
 import com.intellij.util.xmlb.XmlSerializer
+import com.zukotuutori.bracketcolorizer.settings.BracketColorTemplate
+import com.zukotuutori.bracketcolorizer.settings.BracketColorizerListener
+import com.zukotuutori.bracketcolorizer.settings.BracketColorizerSettings
+import com.zukotuutori.bracketcolorizer.settings.ColorHex
 import javax.swing.JButton
 import javax.swing.JPanel
 
@@ -251,6 +255,29 @@ class BracketColorizerToolWindowTest : BasePlatformTestCase() {
         panel.writeState(BracketColorizerSettings.State().apply { enabled = false })
 
         assertFalse("a written state is not a user click", panel.readState().enabled)
+    }
+
+    fun testSettingsFromBeforeTemplatesStillLoad() {
+        // What version 1.0.0 wrote: the same format, only without any templates element.
+        val before = BracketColorizerSettings.State().apply {
+            colorAngle = true
+            boldBrackets = true
+            unmatchedColor = "#123456"
+            levelColors = arrayListOf("#112233", "#445566")
+        }
+        val xml = XmlSerializer.serialize(before)
+        xml.removeChildren("templates")
+        xml.children.filter { it.getAttributeValue("name") == "templates" }.forEach { xml.removeContent(it) }
+        assertNull("the old format carries no templates", xml.getChild("templates"))
+
+        val state = XmlSerializer.deserialize(xml, BracketColorizerSettings.State::class.java)
+
+        assertTrue(state.colorAngle)
+        assertTrue(state.boldBrackets)
+        assertFalse("nothing was ever selected, so the colors stay the hand picked ones", state.useTemplate)
+        assertEquals(listOf("#112233", "#445566"), state.effectiveLevelColors())
+        assertEquals("#123456", state.effectiveUnmatchedColor())
+        assertEquals(BracketColorTemplate.BUILT_IN.map { it.id }, state.templates.map { it.id })
     }
 
     fun testOversizedPaletteIsCapped() {

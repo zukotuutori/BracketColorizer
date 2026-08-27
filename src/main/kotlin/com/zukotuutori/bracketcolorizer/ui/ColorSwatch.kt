@@ -1,10 +1,11 @@
-﻿package com.zukotuutori.bracketcolorizer
+﻿package com.zukotuutori.bracketcolorizer.ui
 
 import com.intellij.ui.ColorChooserService
 import com.intellij.ui.ColorPickerListener
 import com.intellij.ui.JBColor
 import com.intellij.util.ui.JBFont
 import com.intellij.util.ui.JBUI
+import com.zukotuutori.bracketcolorizer.settings.ColorHex
 import java.awt.AlphaComposite
 import java.awt.Color
 import java.awt.Cursor

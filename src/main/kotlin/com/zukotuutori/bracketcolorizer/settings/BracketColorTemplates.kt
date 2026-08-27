@@ -1,4 +1,4 @@
-﻿package com.zukotuutori.bracketcolorizer
+﻿package com.zukotuutori.bracketcolorizer.settings
 
 import com.intellij.util.xmlb.annotations.XCollection
 

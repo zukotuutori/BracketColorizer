@@ -54,17 +54,17 @@
     <extensions defaultExtensionNs="com.intellij">
         <!-- empty language attribute = register for all languages -->
         <annotator language=""
-                   implementationClass="com.zukotuutori.bracketcolorizer.BracketColorizerAnnotator"/>
+                   implementationClass="com.zukotuutori.bracketcolorizer.core.BracketColorizerAnnotator"/>
 
         <!-- The same form as a tool window, docked to the right stripe -->
         <toolWindow id="Bracket Colorizer"
                     anchor="right"
                     icon="/icons/bracketColorizer.svg"
-                    factoryClass="com.zukotuutori.bracketcolorizer.BracketColorizerToolWindowFactory"/>
+                    factoryClass="com.zukotuutori.bracketcolorizer.ui.BracketColorizerToolWindowFactory"/>
 
         <applicationConfigurable parentId="editor"
                                  id="com.zukotuutori.bracketcolorizer.settings"
                                  displayName="Bracket Colorizer"
-                                 instance="com.zukotuutori.bracketcolorizer.BracketColorizerConfigurable"/>
+                                 instance="com.zukotuutori.bracketcolorizer.settings.BracketColorizerConfigurable"/>
     </extensions>
 </idea-plugin>
