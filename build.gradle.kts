@@ -4,8 +4,8 @@ import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
 
 plugins {
     id("java")
-    id("org.jetbrains.kotlin.jvm") version "2.2.21"
-    id("org.jetbrains.intellij.platform") version "2.18.1"
+    id("org.jetbrains.kotlin.jvm") version "2.4.21"
+    id("org.jetbrains.intellij.platform") version "2.20.1"
 }
 
 group = "com.zukotuutori"
@@ -20,9 +20,9 @@ repositories {
 
 dependencies {
     intellijPlatform {
-        // Built against the free IDEA Community distribution. The resulting jar works in every
-        // JetBrains IDE that provides the platform and language modules declared in plugin.xml.
-        intellijIdeaCommunity("2025.2")
+        // Built against IntelliJ IDEA (the unified distribution since 2025.3). The resulting jar works in
+        // every JetBrains IDE that provides the platform and language modules declared in plugin.xml.
+        intellijIdea("2026.3")
         testFramework(TestFrameworkType.Platform)
         // Only used by the tests, to have real languages (lexer, comments, string literals)
         // available. The plugin itself depends on neither Java nor Markdown support.
@@ -35,7 +35,7 @@ dependencies {
 intellijPlatform {
     pluginConfiguration {
         ideaVersion {
-            sinceBuild = "252" // 2025.2 and newer, every JetBrains IDE
+            sinceBuild = "263" // 2026.3 and newer, every JetBrains IDE
             untilBuild = provider { null } // no upper bound - keeps working after IDE updates
         }
     }
@@ -43,17 +43,17 @@ intellijPlatform {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(25)
     }
 }
 
 tasks.withType<JavaCompile>().configureEach {
-    options.release = 21
+    options.release = 25
 }
 
 kotlin {
     compilerOptions {
-        jvmTarget = JvmTarget.JVM_21
+        jvmTarget = JvmTarget.JVM_25
         jvmDefault = JvmDefaultMode.NO_COMPATIBILITY
     }
 }
